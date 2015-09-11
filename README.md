@@ -2,6 +2,9 @@
 
 A node library for interacting with the x3270 mainframe terminal emulator.
 
+> Like bolting a Mr Fusion on the back
+> of a time travelling delorean
+
 ## Prerequisites
 
 ### x3270 terminal emulator
