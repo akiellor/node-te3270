@@ -1,0 +1,14 @@
+{
+  "name": "te3270",
+  "version": "0.1.0",
+  "description": "A module for interacting with a mainframe 3270 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Andrew Kiellor <akiellor@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.3.2"
+  }
+}
