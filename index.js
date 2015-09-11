@@ -37,6 +37,9 @@ module.exports = function connect(host, cb) {
     text: function(cb) {
       this.command("ascii()", cb);
     },
+    quit: function() {
+      this.command("quit()");
+    },
     command: function(script, cb) {
       command(process, script, cb);
     }

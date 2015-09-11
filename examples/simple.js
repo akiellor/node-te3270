@@ -9,4 +9,6 @@ connect('mustang.nevada.edu', function(err, conn) {
     console.log(text);
     console.log(state);
   });
+
+  conn.quit();
 });
