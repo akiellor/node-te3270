@@ -7,8 +7,15 @@ function handle(data) {
   while ((term = buffer.indexOf('ok\n')) !== -1) {
     var result = buffer.slice(0, term);
     buffer = buffer.slice(term + 3);
+
+    var lines = result.split('\n');
+    var data = lines.slice(0, -2).map(function(line) {
+      return line.replace("data: ", "");
+    }).join('\n');
+    var state = lines[lines.length - 2];
+
     var cb = callbacks.shift();
-    cb(result);
+    cb(data, state);
   }
 }
 
