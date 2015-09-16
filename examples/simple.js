@@ -1,14 +1,16 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
-var connect = require(__dirname + '/..');
+var csp = require('js-csp');
+var connect = require(__dirname + '/..').connect;
 
-connect('mustang.nevada.edu', function(err, conn) {
-  conn.command("string(foo)");
+var terminal = connect('mustang.nevada.edu');
 
-  conn.text(function(text, state) {
-    console.log(text);
-    console.log(state);
-  });
+csp.go(function*() {
+  yield terminal.command("wait()");
+  yield terminal.command("string(foo)");
+  var text = yield terminal.text();
 
-  conn.quit();
+  console.log(text);
+
+  yield terminal.command("quit()");
 });
