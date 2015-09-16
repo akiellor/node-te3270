@@ -17,4 +17,15 @@ describe("spawn", () => {
       done();
     })
   });
+
+  it("should close channels if process exits", (done) => {
+    var process = spawn('bash', ["-c", "exit"]);
+
+    csp.go(function*() {
+      var result = yield csp.take(process.stdout);
+      expect(result).to.equal(csp.CLOSED);
+
+      done();
+    });
+  })
 });

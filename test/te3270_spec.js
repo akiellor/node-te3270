@@ -12,6 +12,7 @@ describe('te3270', () => {
       yield terminal.command("wait()");
       yield terminal.command("string(foo)");
       var text = yield terminal.text();
+      yield terminal.command("quit()");
 
       expect(text).to.contain("foo")
       expect(text).to.contain("S y s t e m   C o m p u t i n g   S e r v i c e s")
