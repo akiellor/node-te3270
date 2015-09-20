@@ -1,0 +1,24 @@
+
+                                                                  Date: 09/18/15
+                                                                  Time: 08:29:11
+          W e l c o m e   t o    Mustang                      Terminal: TCP20004
+
+                ****   ****   *******   ****   ****  *********
+                 ****   **   **     **   **     **    **     *
+                 ** **  **   **          **     **    **
+                 **  ** **    *******    *********    *****
+                 **   ****          **   **     **    **
+                 **    ***   **     **   **     **    **     *
+                ****   ****   *******   ****   ****  *********
+
+              S y s t e m   C o m p u t i n g   S e r v i c e s
+
+              Enter Logon information:
+                User ID  . . . .
+                Password . . . .             New Password  .
+
+                Application  . .
+                Group  . . . . .
+
+         For password issues go to  http://mustang.nevada.edu/Security
+                       For other help press F1 twice
