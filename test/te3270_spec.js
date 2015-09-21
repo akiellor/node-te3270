@@ -8,7 +8,7 @@ describe('te3270', () => {
 
     var terminal = te3270.connect('mustang.nevada.edu');
     var loginScreen = te3270.screen(terminal, {
-      terminal: [[4, 73], [4, 80]]
+      terminal: te3270.screen.text([[4, 73], [4, 80]])
     });
 
     csp.go(function*() {
