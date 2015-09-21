@@ -8,12 +8,13 @@ describe('te3270', () => {
 
     var terminal = te3270.connect('mustang.nevada.edu');
     var loginScreen = te3270.screen(terminal, {
-      terminal: te3270.screen.text([[4, 73], [4, 80]])
+      terminal: te3270.screen.text([[3, 72], [3, 79]]),
+      username: te3270.screen.field([16, 33])
     });
 
     csp.go(function*() {
       yield terminal.command("wait()");
-      yield terminal.command("string(foo)");
+      yield loginScreen.username("foo");
       var text = yield loginScreen.terminal();
       yield terminal.command("quit()");
 
