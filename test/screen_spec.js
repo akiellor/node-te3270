@@ -8,18 +8,24 @@ var spies = require('chai-spies');
 chai.use(spies);
 
 describe('screen', () => {
+  function createTerminal(text) {
+    text = text || "";
+    var result = csp.chan();
+    csp.go(function*(){
+      yield csp.put(result, text);
+    });
+
+    return {
+      command: chai.spy(),
+      text: function() {
+        return result;
+      }
+    };
+  }
+
   describe('text', () => {
     it('should allow for extraction of field data', function(done) {
-      var result = csp.chan();
-      csp.go(function*(){
-        yield csp.put(result, loginText);
-      });
-
-      var terminal = {
-        text: function() {
-          return result;
-        }
-      };
+      var terminal = createTerminal(loginText);
 
       var loginPage = screen(terminal, {
         terminal: screen.text([[3, 72], [3, 79]])
@@ -35,9 +41,7 @@ describe('screen', () => {
 
   describe('field', () => {
     it('should allow typing to specified location', function(done) {
-      var terminal = {
-        command: chai.spy()
-      };
+      var terminal = createTerminal();
 
       var loginPage = screen(terminal, {
         username: screen.field([16, 33])
@@ -53,18 +57,29 @@ describe('screen', () => {
   });
 
   describe('table', () => {
-    it('should allow interaction with rows', function(done) {
-      var result = csp.chan();
-      csp.go(function*(){
-        yield csp.put(result, tableText);
+    it('should allow selection of rows', function(done) {
+      var terminal = createTerminal(tableText);
+
+      var tablePage = screen(terminal, {
+        table: screen.table(8, 23, {
+          sel: screen.table.selectable(3)
+        })
       });
 
-      var terminal = {
-        command: chai.spy(),
-        text: function() {
-          return result;
-        }
-      };
+      csp.go(function*() {
+        var rows = yield tablePage.table().rows();
+        yield rows[1].sel();
+
+        expect(terminal.command.__spy.calls[0]).to.deep.equal(["movecursor(9,3)"]);
+        expect(terminal.command.__spy.calls[1]).to.deep.equal(["string(c)"]);
+        expect(terminal.command.__spy.calls[2]).to.deep.equal(["enter()"]);
+
+        done();
+      });
+    });
+
+    it('should allow text extraction of columns', function(done) {
+      var terminal = createTerminal(tableText);
 
       var tablePage = screen(terminal, {
         table: screen.table(8, 23, {
