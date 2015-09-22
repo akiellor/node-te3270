@@ -2,6 +2,7 @@ var csp = require('js-csp');
 var expect = require('chai').expect;
 var loginText = require('fs').readFileSync(__dirname + '/fixtures/mustang.txt').toString();
 var tableText = require('fs').readFileSync(__dirname + '/fixtures/table.txt').toString();
+var tableMissingRowsText = require('fs').readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
 var screen = require(__dirname + "/../lib/screen");
 var chai = require('chai');
 var spies = require('chai-spies');
@@ -76,6 +77,23 @@ describe('screen', () => {
 
         done();
       });
+    });
+
+    it('should not create rows where there is no content', function(done) {
+      var terminal = createTerminal(tableMissingRowsText);
+
+      var tablePage = screen(terminal, {
+        table: screen.table(8, 23, {
+          foo: screen.table.text(7, 11)
+        })
+      });
+
+      csp.go(function*() {
+        var rows = yield tablePage.table().rows();
+        expect(rows.length).to.equal(4);
+        done();
+      });
+ 
     });
 
     it('should allow text extraction of columns', function(done) {
