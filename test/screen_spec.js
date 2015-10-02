@@ -46,6 +46,25 @@ tap.test('screen', (t) => {
     tt.done();
   });
 
+  t.test('keys', (tt) => {
+    for (let i = 1; i <= 12; i++) {
+      tt.test(`fn${i}`, (ttt) => {
+        var terminal = createTerminal();
+
+        var loginPage = screen(terminal, {
+          functionKey: screen.keys.fn(i)
+        });
+
+        csp.go(function*() {
+          yield loginPage.functionKey();
+          expect(terminal.command.__spy.calls[0]).to.deep.equal([`pf(${i})`]);
+          ttt.done();
+        });
+      });
+    }
+    tt.done();
+  });
+
   t.test('field', (tt) => {
     tt.test('should allow typing to specified location', function(ttt) {
       var terminal = createTerminal();
