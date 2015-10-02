@@ -1,14 +1,18 @@
-var csp = require('js-csp');
-var expect = require('chai').expect;
-var loginText = require('fs').readFileSync(__dirname + '/fixtures/mustang.txt').toString();
-var tableText = require('fs').readFileSync(__dirname + '/fixtures/table.txt').toString();
-var tableMissingRowsText = require('fs').readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
-var screen = require(__dirname + "/../lib/screen");
-var chai = require('chai');
-var spies = require('chai-spies');
+import tap from 'tap';
+import chai from 'chai';
+import spies from 'chai-spies';
 chai.use(spies);
+const expect = chai.expect;
 
-describe('screen', () => {
+import csp from 'js-csp';
+import {readFileSync} from 'fs';
+import screen from './../lib/screen';
+
+var loginText = readFileSync(__dirname + '/fixtures/mustang.txt').toString();
+var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
+var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
+
+tap.test('screen', (t) => {
   function createTerminal(text) {
     text = text || "";
     var result = csp.chan();
@@ -24,8 +28,8 @@ describe('screen', () => {
     };
   }
 
-  describe('text', () => {
-    it('should allow for extraction of field data', function(done) {
+  t.test('text', (tt) => {
+    tt.test('should allow for extraction of field data', function(ttt) {
       var terminal = createTerminal(loginText);
 
       var loginPage = screen(terminal, {
@@ -35,13 +39,15 @@ describe('screen', () => {
       csp.go(function*() {
         var value = yield loginPage.terminal();
         expect(value).to.equal('TCP20004');
-        done();
+        ttt.done();
       });
     });
+
+    tt.done();
   });
 
-  describe('field', () => {
-    it('should allow typing to specified location', function(done) {
+  t.test('field', (tt) => {
+    tt.test('should allow typing to specified location', function(ttt) {
       var terminal = createTerminal();
 
       var loginPage = screen(terminal, {
@@ -52,13 +58,15 @@ describe('screen', () => {
         yield loginPage.username("foo");
         expect(terminal.command.__spy.calls[0]).to.deep.equal(["movecursor(16,33)"]);
         expect(terminal.command.__spy.calls[1]).to.deep.equal(["string(foo)"]);
-        done();
+        ttt.done();
       });
     });
+
+    tt.done();
   });
 
-  describe('table', () => {
-    it('should allow selection of rows', function(done) {
+  t.test('table', (tt) => {
+    tt.test('should allow selection of rows', function(ttt) {
       var terminal = createTerminal(tableText);
 
       var tablePage = screen(terminal, {
@@ -75,11 +83,11 @@ describe('screen', () => {
         expect(terminal.command.__spy.calls[1]).to.deep.equal(["string(c)"]);
         expect(terminal.command.__spy.calls[2]).to.deep.equal(["enter()"]);
 
-        done();
+        ttt.done();
       });
     });
 
-    it('should not create rows where there is no content', function(done) {
+    tt.test('should not create rows where there is no content', function(ttt) {
       var terminal = createTerminal(tableMissingRowsText);
 
       var tablePage = screen(terminal, {
@@ -91,12 +99,11 @@ describe('screen', () => {
       csp.go(function*() {
         var rows = yield tablePage.table().rows();
         expect(rows.length).to.equal(4);
-        done();
+        ttt.done();
       });
- 
     });
 
-    it('should allow text extraction of columns', function(done) {
+    tt.test('should allow text extraction of columns', function(ttt) {
       var terminal = createTerminal(tableText);
 
       var tablePage = screen(terminal, {
@@ -127,8 +134,13 @@ describe('screen', () => {
           "foo5",
           "foo4"
         ]);
-        done();
+
+        ttt.done();
       });
     });
+
+    tt.done();
   });
+
+  t.done();
 });

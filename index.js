@@ -1,5 +1,8 @@
-module.exports = {
-  connect: require('./lib/te3270').connect,
-  csp: require('./lib/te3270').csp,
-  screen: require('./lib/screen'),
+import {connect, csp} from './lib/te3270';
+import screen from './lib/screen';
+
+export default {
+  connect: connect,
+  csp: csp,
+  screen: screen
 }

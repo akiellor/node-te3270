@@ -1,9 +1,10 @@
-var csp = require('js-csp');
-var expect = require('chai').expect;
-var spawn = require(__dirname + "/../lib/spawn");
+import tap from 'tap';
+import csp from 'js-csp';
+import {expect} from 'chai';
+import spawn from './../lib/spawn';
 
-describe("spawn", () => {
-  it("should tee stdin to stdout", (done) => {
+tap.test("spawn", (t) => {
+  t.test("should tee stdin to stdout", (tt) => {
     var process = spawn('tee');
 
     csp.go(function*() {
@@ -14,18 +15,20 @@ describe("spawn", () => {
 
       process.stdin.close();
 
-      done();
+      tt.done();
     })
   });
 
-  it("should close channels if process exits", (done) => {
+  t.test("should close channels if process exits", (tt) => {
     var process = spawn('bash', ["-c", "exit"]);
 
     csp.go(function*() {
       var result = yield csp.take(process.stdout);
       expect(result).to.equal(csp.CLOSED);
 
-      done();
+      tt.done();
     });
-  })
+  });
+
+  t.done();
 });

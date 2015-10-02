@@ -1,11 +1,10 @@
-var csp = require('js-csp');
-var expect = require('chai').expect;
-var te3270 = require(__dirname + "/../index");
+import tap from 'tap';
+import csp from 'js-csp';
+import {expect} from 'chai';
+import te3270 from './../index';
 
-describe('te3270', () => {
-  it('should process streams', function(done) {
-    this.timeout(20000);
-
+tap.test('te3270', (t) => {
+  t.test('should process streams', function(tt) {
     var terminal = te3270.connect('mustang.nevada.edu');
     var loginScreen = te3270.screen(terminal, {
       terminal: te3270.screen.text([[3, 72], [3, 79]]),
@@ -20,7 +19,9 @@ describe('te3270', () => {
 
       expect(text).to.match(/TCP[0-9]+/);
 
-      done();
+      tt.done();
     });
   });
+
+  t.done();
 });
