@@ -1,4 +1,4 @@
-import {connect, csp} from './lib/te3270';
+import {connect, csp} from './lib/terminal';
 import screen from './lib/screen';
 
 export default {
