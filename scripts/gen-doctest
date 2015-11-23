@@ -1,0 +1,31 @@
+#!/usr/bin/env babel-node --harmony
+
+var input = "";
+process.stdin.on('readable', function() {
+  var chunk = process.stdin.read();
+  if (chunk !== null) {
+    input += chunk; 
+  }
+});
+
+process.stdin.on('end', function() {
+  var examples = JSON.parse(input).map(function(entry) {
+    return entry.examples;
+  }).filter(function(examples) {
+    return Array.isArray(examples);
+  }).reduce(function(memo, item) {
+    return memo.concat(item);
+  }).map(function(test) {
+    return `#!/usr/bin/env babel-node --ignore false
+import { connect, csp } from 'te3270/lib/terminal';
+
+let terminal = connect('mustang.nevada.edu');
+
+${test}
+    `
+  });
+
+  examples.forEach(function(test, i) {
+    require('fs').writeFileSync(`doctests/${i}.js`, test);
+  });
+});
