@@ -1,0 +1,109 @@
+#!/usr/bin/env babel-node --harmony
+
+import tap from 'tap';
+import chai from 'chai';
+const expect = chai.expect;
+import spies from 'chai-spies';
+chai.use(spies);
+
+
+import csp from 'js-csp';
+import {readFileSync} from 'fs';
+import { screen } from './../lib/screen';
+import { table, selectable, text } from './../lib/table';
+
+var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
+var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
+
+tap.test('table', (tt) => {
+  function createTerminal(text) {
+    text = text || "";
+    var result = csp.chan();
+    csp.go(function*(){
+      yield csp.put(result, text);
+    });
+
+    return {
+      command: chai.spy(),
+      text: function() {
+        return result;
+      }
+    };
+  }
+
+
+  tt.test('should allow selection of rows', function(ttt) {
+    var terminal = createTerminal(tableText);
+
+    var tablePage = screen(terminal, {
+      table: table(8, 23, {
+        sel: selectable(3)
+      })
+    });
+
+    csp.go(function*() {
+      var rows = yield tablePage.table().rows();
+      yield rows[1].sel();
+
+      expect(terminal.command.__spy.calls[0]).to.deep.equal(["movecursor(9,3)"]);
+      expect(terminal.command.__spy.calls[1]).to.deep.equal(["string(c)"]);
+      expect(terminal.command.__spy.calls[2]).to.deep.equal(["enter()"]);
+
+      ttt.done();
+    });
+  });
+
+  tt.test('should not create rows where there is no content', function(ttt) {
+    var terminal = createTerminal(tableMissingRowsText);
+
+    var tablePage = screen(terminal, {
+      table: table(8, 23, {
+        foo: text(7, 11)
+      })
+    });
+
+    csp.go(function*() {
+      var rows = yield tablePage.table().rows();
+      expect(rows.length).to.equal(4);
+      ttt.done();
+    });
+  });
+
+  tt.test('should allow text extraction of columns', function(ttt) {
+    var terminal = createTerminal(tableText);
+
+    var tablePage = screen(terminal, {
+      table: table(8, 23, {
+        foo: text(7, 11)
+      })
+    });
+
+    csp.go(function*() {
+      var rows = yield tablePage.table().rows();
+      var foos = rows.map(function(row) {
+        return row.foo();
+      })
+      expect(foos).to.deep.equal([
+        "foo1",
+        "foo2",
+        "foo3",
+        "foo4",
+        "foo5",
+        "foo6",
+        "foo7",
+        "foo9",
+        "foo0",
+        "foo9",
+        "foo8",
+        "foo7",
+        "foo6",
+        "foo5",
+        "foo4"
+      ]);
+
+      ttt.done();
+    });
+  });
+
+  tt.done();
+});
