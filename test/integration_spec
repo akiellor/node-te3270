@@ -4,13 +4,14 @@ import tap from 'tap';
 import csp from 'js-csp';
 import {expect} from 'chai';
 import te3270 from './../index';
+import { screen, text, field } from './../lib/screen';
 
 tap.test('te3270', (t) => {
   t.test('should process streams', function(tt) {
     var terminal = te3270.connect('mustang.nevada.edu');
-    var loginScreen = te3270.screen(terminal, {
-      terminal: te3270.screen.text([[3, 72], [3, 79]]),
-      username: te3270.screen.field([16, 33])
+    var loginScreen = screen(terminal, {
+      terminal: text([[3, 72], [3, 79]]),
+      username: field([16, 33])
     });
 
     csp.go(function*() {

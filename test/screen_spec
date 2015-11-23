@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 import csp from 'js-csp';
 import {readFileSync} from 'fs';
-import screen from './../lib/screen';
+import { screen, text, field, keys, table } from './../lib/screen';
 
 var loginText = readFileSync(__dirname + '/fixtures/mustang.txt').toString();
 var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
@@ -35,7 +35,7 @@ tap.test('screen', (t) => {
       var terminal = createTerminal(loginText);
 
       var loginPage = screen(terminal, {
-        terminal: screen.text([[3, 72], [3, 79]])
+        terminal: text([[3, 72], [3, 79]])
       });
 
       csp.go(function*() {
@@ -54,7 +54,7 @@ tap.test('screen', (t) => {
         var terminal = createTerminal();
 
         var loginPage = screen(terminal, {
-          functionKey: screen.keys.fn(i)
+          functionKey: keys.fn(i)
         });
 
         csp.go(function*() {
@@ -72,7 +72,7 @@ tap.test('screen', (t) => {
       var terminal = createTerminal();
 
       var loginPage = screen(terminal, {
-        username: screen.field([16, 33])
+        username: field([16, 33])
       });
 
       csp.go(function*() {
@@ -91,8 +91,8 @@ tap.test('screen', (t) => {
       var terminal = createTerminal(tableText);
 
       var tablePage = screen(terminal, {
-        table: screen.table(8, 23, {
-          sel: screen.table.selectable(3)
+        table: table(8, 23, {
+          sel: table.selectable(3)
         })
       });
 
@@ -112,8 +112,8 @@ tap.test('screen', (t) => {
       var terminal = createTerminal(tableMissingRowsText);
 
       var tablePage = screen(terminal, {
-        table: screen.table(8, 23, {
-          foo: screen.table.text(7, 11)
+        table: table(8, 23, {
+          foo: table.text(7, 11)
         })
       });
 
@@ -128,8 +128,8 @@ tap.test('screen', (t) => {
       var terminal = createTerminal(tableText);
 
       var tablePage = screen(terminal, {
-        table: screen.table(8, 23, {
-          foo: screen.table.text(7, 11)
+        table: table(8, 23, {
+          foo: table.text(7, 11)
         })
       });
 
