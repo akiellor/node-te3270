@@ -10,7 +10,7 @@ chai.use(spies);
 import csp from 'js-csp';
 import {readFileSync} from 'fs';
 import { screen } from './../lib/screen';
-import { table, selectable, text } from './../lib/table';
+import { table, selectable, cell } from './../lib/table';
 
 var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
 var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
@@ -30,7 +30,6 @@ tap.test('table', (tt) => {
       }
     };
   }
-
 
   tt.test('should allow selection of rows', function(ttt) {
     var terminal = createTerminal(tableText);
@@ -58,7 +57,7 @@ tap.test('table', (tt) => {
 
     var tablePage = screen(terminal, {
       table: table(8, 23, {
-        foo: text(7, 11)
+        foo: cell(7, 11)
       })
     });
 
@@ -74,7 +73,7 @@ tap.test('table', (tt) => {
 
     var tablePage = screen(terminal, {
       table: table(8, 23, {
-        foo: text(7, 11)
+        foo: cell(7, 11)
       })
     });
 
