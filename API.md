@@ -1,7 +1,5 @@
 # field
 
-[lib/screen.js:57-67](https://github.com/akiellor/node-te3270/blob/48b92c9d73a9445876552346159d3fcd56f0ab9b/lib/screen.js#L57-L67 "Source code on GitHub")
-
 Enters text at specified location.
 
 **Parameters**
@@ -25,14 +23,11 @@ csp.go(function*() {
 
 # fnKey
 
-[lib/screen.js:87-91](https://github.com/akiellor/node-te3270/blob/48b92c9d73a9445876552346159d3fcd56f0ab9b/lib/screen.js#L87-L91 "Source code on GitHub")
-
 Presses a function key.
 
 **Parameters**
 
--   `fn`  key number {Number}
--   `number`  
+-   `number`  {Number}
 
 **Examples**
 
@@ -50,8 +45,6 @@ csp.go(function*() {
 ```
 
 # text
-
-[lib/screen.js:22-37](https://github.com/akiellor/node-te3270/blob/48b92c9d73a9445876552346159d3fcd56f0ab9b/lib/screen.js#L22-L37 "Source code on GitHub")
 
 Extracts text at the provided dimensions from the screen.
 

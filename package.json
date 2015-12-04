@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "tap test && scripts/doctest",
-    "docs": "documentation -g --format md -o API.md"
+    "docs": "documentation --format md -o API.md"
   },
   "devDependencies": {
     "babel": "^5.8.23",
