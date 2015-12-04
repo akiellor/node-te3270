@@ -3,5 +3,26 @@
 set -e
 
 mkdir -p doctests
+cat > doctests/package.json <<EOS
+{
+  "name": "doctests",
+  "version": "0.1.0",
+  "devDependencies": {
+    "babel-cli": "6.1.18",
+    "babel-preset-es2015": "6.1.18"
+  }
+}
+EOS
 
-documentation | scripts/gen-doctest; bash -c 'cd doctests; chmod +x *.js; for i in *.js; do ./$i; done'
+documentation | scripts/gen-doctest
+
+cd doctests
+
+npm install
+npm link ../
+
+chmod +x *.js
+
+for i in *.js; do
+  ./$i
+done

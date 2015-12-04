@@ -16,7 +16,7 @@ process.stdin.on('end', function() {
   }).reduce(function(memo, item) {
     return memo.concat(item);
   }).map(function(test) {
-    return `#!/usr/bin/env babel-node --ignore false
+    return `#!/usr/bin/env babel-node --presets es2015
 import { connect, csp } from 'te3270/lib/terminal';
 
 let terminal = connect('mustang.nevada.edu');

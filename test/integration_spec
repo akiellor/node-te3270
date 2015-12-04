@@ -1,4 +1,4 @@
-#!/usr/bin/env babel-node --harmony
+#!/usr/bin/env babel-node --presets es2015
 
 import tap from 'tap';
 import csp from 'js-csp';
