@@ -14,26 +14,26 @@ function command(commands, script, result) {
  * @param host {String}
  */
 export function connect(host) {
-  var process = spawn('x3270', ['-script', host]);
+  const process = spawn('x3270', ['-script', host]);
 
-  var commands = jsCsp.chan();
-  var results = jsCsp.chan();
+  const commands = jsCsp.chan();
+  const results = jsCsp.chan();
 
   jsCsp.go(function*() {
-    var buffer = "";
+    let buffer = "";
 
     function handle(data) {
       buffer += data.toString();
-      var term;
+      let term;
       while ((term = buffer.indexOf('ok\n')) !== -1) {
-        var result = buffer.slice(0, term);
+        const result = buffer.slice(0, term);
         buffer = buffer.slice(term + 3);
 
-        var lines = result.split('\n');
-        var data = lines.slice(0, -2).map(function(line) {
+        const lines = result.split('\n');
+        const data = lines.slice(0, -2).map(function(line) {
           return line.replace("data: ", "");
         }).join('\n');
-        var state = lines[lines.length - 2];
+        const state = lines[lines.length - 2];
         return {
           data: data
         };
@@ -44,9 +44,9 @@ export function connect(host) {
       let [script, resultChan] = yield jsCsp.take(commands);
       yield jsCsp.put(process.stdin, script);
 
-      var result = undefined;
+      let result = undefined;
       while (result === undefined) {
-        var chunk = yield jsCsp.take(process.stdout);
+        const chunk = yield jsCsp.take(process.stdout);
         if (chunk === jsCsp.CLOSED) {
           resultChan.close();
           return;
@@ -65,7 +65,7 @@ export function connect(host) {
       return this.command("ascii()");
     },
     command: function(script) {
-      var result = jsCsp.chan();
+      const result = jsCsp.chan();
       command(commands, script + '\n', result);
       return result;
     },

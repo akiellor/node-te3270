@@ -12,14 +12,14 @@ export function table(rowStart, rowEnd, definition) {
   return function(terminal) {
     return {
       rows: function() {
-        var resultChan = csp.chan();
+        const resultChan = csp.chan();
         csp.go(function*() {
-          var text = yield terminal.text();
-          var rowTexts = text.split('\n').slice(rowStart, rowEnd);
-          var rows = rowTexts.filter(function(rowText) {
+          const text = yield terminal.text();
+          const rowTexts = text.split('\n').slice(rowStart, rowEnd);
+          const rows = rowTexts.filter(function(rowText) {
             return rowText.trim().length > 0;
           }).map(function(rowText, i) {
-            var result = {};
+            const result = {};
             Object.keys(definition).forEach(function(key) {
               result[key] = definition[key].bind(null, {
                 text: rowText,
@@ -60,9 +60,9 @@ export function cell(textStart, textEnd) {
 */
 export function selectable(location) {
   return function(row, table, terminal) {
-    var resultChan = csp.chan();
+    const resultChan = csp.chan();
     csp.go(function*() {
-      var yOffset = row.index + table.start;
+      const yOffset = row.index + table.start;
       yield terminal.command("movecursor(" + yOffset + "," + location + ")");
       yield terminal.command("string(c)");
       yield terminal.command("enter()");

@@ -2,14 +2,14 @@
 
 var input = "";
 process.stdin.on('readable', function() {
-  var chunk = process.stdin.read();
+  const chunk = process.stdin.read();
   if (chunk !== null) {
     input += chunk; 
   }
 });
 
 process.stdin.on('end', function() {
-  var examples = JSON.parse(input).map(function(entry) {
+  const examples = JSON.parse(input).map(function(entry) {
     return entry.examples;
   }).filter(function(examples) {
     return Array.isArray(examples);

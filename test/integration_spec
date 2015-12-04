@@ -8,8 +8,8 @@ import { screen, text, field } from './../screen';
 
 tap.test('te3270', (t) => {
   t.test('should process streams', function(tt) {
-    var terminal = te3270.connect('mustang.nevada.edu');
-    var loginScreen = screen(terminal, {
+    const terminal = te3270.connect('mustang.nevada.edu');
+    const loginScreen = screen(terminal, {
       terminal: text([[3, 72], [3, 79]]),
       username: field([16, 33])
     });
@@ -17,7 +17,7 @@ tap.test('te3270', (t) => {
     csp.go(function*() {
       yield terminal.command("wait()");
       yield loginScreen.username("foo");
-      var text = yield loginScreen.terminal();
+      const text = yield loginScreen.terminal();
       yield terminal.command("quit()");
 
       expect(text).to.match(/TCP[0-9]+/);

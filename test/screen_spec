@@ -10,14 +10,14 @@ import csp from 'js-csp';
 import {readFileSync} from 'fs';
 import { screen, text, field, fnKey, table } from './../screen';
 
-var loginText = readFileSync(__dirname + '/fixtures/mustang.txt').toString();
-var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
-var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
+const loginText = readFileSync(__dirname + '/fixtures/mustang.txt').toString();
+const tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
+const tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
 
 tap.test('screen', (t) => {
   function createTerminal(text) {
     text = text || "";
-    var result = csp.chan();
+    const result = csp.chan();
     csp.go(function*(){
       yield csp.put(result, text);
     });
@@ -32,14 +32,14 @@ tap.test('screen', (t) => {
 
   t.test('text', (tt) => {
     tt.test('should allow for extraction of field data', function(ttt) {
-      var terminal = createTerminal(loginText);
+      const terminal = createTerminal(loginText);
 
-      var loginPage = screen(terminal, {
+      const loginPage = screen(terminal, {
         terminal: text([[3, 72], [3, 79]])
       });
 
       csp.go(function*() {
-        var value = yield loginPage.terminal();
+        const value = yield loginPage.terminal();
         expect(value).to.equal('TCP20004');
         ttt.done();
       });
@@ -51,9 +51,9 @@ tap.test('screen', (t) => {
   t.test('fnKey', (tt) => {
     for (let i = 1; i <= 12; i++) {
       tt.test(`fn${i}`, (ttt) => {
-        var terminal = createTerminal();
+        const terminal = createTerminal();
 
-        var loginPage = screen(terminal, {
+        const loginPage = screen(terminal, {
           functionKey: fnKey(i)
         });
 
@@ -69,9 +69,9 @@ tap.test('screen', (t) => {
 
   t.test('field', (tt) => {
     tt.test('should allow typing to specified location', function(ttt) {
-      var terminal = createTerminal();
+      const terminal = createTerminal();
 
-      var loginPage = screen(terminal, {
+      const loginPage = screen(terminal, {
         username: field([16, 33])
       });
 

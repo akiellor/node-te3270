@@ -12,13 +12,13 @@ import {readFileSync} from 'fs';
 import { screen } from './../screen';
 import { table, selectable, cell } from './../table';
 
-var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
-var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
+const tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
+const tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
 
 tap.test('table', (tt) => {
   function createTerminal(text) {
     text = text || "";
-    var result = csp.chan();
+    const result = csp.chan();
     csp.go(function*(){
       yield csp.put(result, text);
     });
@@ -32,16 +32,16 @@ tap.test('table', (tt) => {
   }
 
   tt.test('should allow selection of rows', function(ttt) {
-    var terminal = createTerminal(tableText);
+    const terminal = createTerminal(tableText);
 
-    var tablePage = screen(terminal, {
+    const tablePage = screen(terminal, {
       table: table(8, 23, {
         sel: selectable(3)
       })
     });
 
     csp.go(function*() {
-      var rows = yield tablePage.table().rows();
+      const rows = yield tablePage.table().rows();
       yield rows[1].sel();
 
       expect(terminal.command.__spy.calls[0]).to.deep.equal(["movecursor(9,3)"]);
@@ -53,33 +53,33 @@ tap.test('table', (tt) => {
   });
 
   tt.test('should not create rows where there is no content', function(ttt) {
-    var terminal = createTerminal(tableMissingRowsText);
+    const terminal = createTerminal(tableMissingRowsText);
 
-    var tablePage = screen(terminal, {
+    const tablePage = screen(terminal, {
       table: table(8, 23, {
         foo: cell(7, 11)
       })
     });
 
     csp.go(function*() {
-      var rows = yield tablePage.table().rows();
+      const rows = yield tablePage.table().rows();
       expect(rows.length).to.equal(4);
       ttt.done();
     });
   });
 
   tt.test('should allow text extraction of columns', function(ttt) {
-    var terminal = createTerminal(tableText);
+    const terminal = createTerminal(tableText);
 
-    var tablePage = screen(terminal, {
+    const tablePage = screen(terminal, {
       table: table(8, 23, {
         foo: cell(7, 11)
       })
     });
 
     csp.go(function*() {
-      var rows = yield tablePage.table().rows();
-      var foos = rows.map(function(row) {
+      const rows = yield tablePage.table().rows();
+      const foos = rows.map(function(row) {
         return row.foo();
       })
       expect(foos).to.deep.equal([
