@@ -3,8 +3,8 @@
 import tap from 'tap';
 import csp from 'js-csp';
 import {expect} from 'chai';
-import te3270 from './../index';
-import { screen, text, field } from './../lib/screen';
+import * as te3270 from './../index';
+import { screen, text, field } from './../screen';
 
 tap.test('te3270', (t) => {
   t.test('should process streams', function(tt) {

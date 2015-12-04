@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 import csp from 'js-csp';
 import {readFileSync} from 'fs';
-import { screen, text, field, fnKey, table } from './../lib/screen';
+import { screen, text, field, fnKey, table } from './../screen';
 
 var loginText = readFileSync(__dirname + '/fixtures/mustang.txt').toString();
 var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();

@@ -7,7 +7,7 @@ import csp from 'js-csp';
 * @param dimensions {Array}
 *
 * @example
-* import { screen, text } from 'te3270/lib/screen';
+* import { screen, text } from 'te3270/screen';
 *
 * let awesomeScreen = screen(terminal, {
 *   awesomeText: text([[0, 70], [0, 80]])
@@ -43,7 +43,7 @@ export function text(dimensions) {
 * @param location {Array}
 *
 * @example
-* import { screen, field } from 'te3270/lib/screen';
+* import { screen, field } from 'te3270/screen';
 *
 * let awesomeScreen = screen(terminal, {
 *   awesomeField: field([5, 10])
@@ -73,7 +73,7 @@ export function field(location) {
  * @param number {Number}
  *
  * @example
- * import { screen, fnKey } from 'te3270/lib/screen';
+ * import { screen, fnKey } from 'te3270/screen';
  *
  * let awesomeScreen = screen(terminal, {
  *   back: fnKey(3)

@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "tap test && scripts/doctest",
-    "docs": "documentation --format md -o API.md"
+    "docs": "documentation --format md -o API.md *.js"
   },
   "devDependencies": {
     "babel-cli": "6.1.18",

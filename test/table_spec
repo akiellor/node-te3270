@@ -9,8 +9,8 @@ chai.use(spies);
 
 import csp from 'js-csp';
 import {readFileSync} from 'fs';
-import { screen } from './../lib/screen';
-import { table, selectable, cell } from './../lib/table';
+import { screen } from './../screen';
+import { table, selectable, cell } from './../table';
 
 var tableText = readFileSync(__dirname + '/fixtures/table.txt').toString();
 var tableMissingRowsText = readFileSync(__dirname + '/fixtures/table-missing-rows.txt').toString();
