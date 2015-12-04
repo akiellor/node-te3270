@@ -1,5 +1,13 @@
 import csp from 'js-csp';
 
+/**
+* Defines a table on the specified rows.
+*
+* @public
+* @param rowStart {Number}
+* @param rowEnd {Number}
+* @param definition {Object}
+*/
 export function table(rowStart, rowEnd, definition) {
   return function(terminal) {
     return {
@@ -31,12 +39,25 @@ export function table(rowStart, rowEnd, definition) {
   };
 }
 
+/**
+* Allows for extraction of text from a cell.
+*
+* @public
+* @param textStart {Number}
+* @param textEnd {Number}
+*/
 export function cell(textStart, textEnd) {
   return function(row) {
     return row.text.slice(textStart, textEnd);
   };
 }
 
+/**
+* Allows for selecting a given row, where a row may have an input field.
+*
+* @public
+* @param location {Array}
+*/
 export function selectable(location) {
   return function(row, table, terminal) {
     var resultChan = csp.chan();

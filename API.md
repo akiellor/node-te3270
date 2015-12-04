@@ -1,3 +1,20 @@
+# cell
+
+Allows for extraction of text from a cell.
+
+**Parameters**
+
+-   `textStart`  {Number}
+-   `textEnd`  {Number}
+
+# connect
+
+Connects to a specified host te3270.
+
+**Parameters**
+
+-   `host`  {String}
+
 # field
 
 Enters text at specified location.
@@ -9,7 +26,7 @@ Enters text at specified location.
 **Examples**
 
 ```javascript
-import { screen, field } from 'te3270/lib/screen';
+import { screen, field } from 'te3270/screen';
 
 let awesomeScreen = screen(terminal, {
   awesomeField: field([5, 10])
@@ -32,7 +49,7 @@ Presses a function key.
 **Examples**
 
 ```javascript
-import { screen, fnKey } from 'te3270/lib/screen';
+import { screen, fnKey } from 'te3270/screen';
 
 let awesomeScreen = screen(terminal, {
   back: fnKey(3)
@@ -43,6 +60,33 @@ csp.go(function*() {
   yield terminal.quit();
 });
 ```
+
+# screen
+
+Defines a screen.
+
+**Parameters**
+
+-   `terminal`  {Object}
+-   `definition`  {Object}
+
+# selectable
+
+Allows for selecting a given row, where a row may have an input field.
+
+**Parameters**
+
+-   `location`  {Array}
+
+# table
+
+Defines a table on the specified rows.
+
+**Parameters**
+
+-   `rowStart`  {Number}
+-   `rowEnd`  {Number}
+-   `definition`  {Object}
 
 # text
 
@@ -55,7 +99,7 @@ Extracts text at the provided dimensions from the screen.
 **Examples**
 
 ```javascript
-import { screen, text } from 'te3270/lib/screen';
+import { screen, text } from 'te3270/screen';
 
 let awesomeScreen = screen(terminal, {
   awesomeText: text([[0, 70], [0, 80]])

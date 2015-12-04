@@ -90,6 +90,13 @@ export function fnKey(number) {
   };
 }
 
+/**
+ * Defines a screen.
+ *
+ * @public
+ * @param terminal {Object}
+ * @param definition {Object}
+ */
 export function screen(terminal, definition) {
   var result = {};
   Object.keys(definition).forEach(function(key) {

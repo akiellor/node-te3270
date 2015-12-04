@@ -7,6 +7,12 @@ function command(commands, script, result) {
   });
 }
 
+/**
+ * Connects to a specified host te3270.
+ *
+ * @public
+ * @param host {String}
+ */
 export function connect(host) {
   var process = spawn('x3270', ['-script', host]);
 
